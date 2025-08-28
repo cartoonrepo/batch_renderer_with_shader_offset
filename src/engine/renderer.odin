@@ -29,8 +29,6 @@ Renderer :: struct {
     batch_count : u32, // NOTE: not needed.
 }
 
-renderer: Renderer
-
 // /utils
 normalize_color :: proc(color: Color) -> [4]f32 {
     return {
@@ -49,6 +47,8 @@ clear_background :: proc(color: Color) {
 }
 
 // /render
+renderer: Renderer
+
 setup_renderer :: proc(r: ^Renderer) {
     r.max_quads = MAX_ELEMENTS
     r.vertices  = make([]Vertex, r.max_quads * 4)

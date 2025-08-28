@@ -12,7 +12,7 @@ SCREEN_WIDTH  :: 1280
 SCREEN_HEIGHT :: 720
 
 main :: proc() {
-    en.set_window_flags({.RESIZABLE, .MAXIMIZED})
+    // en.set_window_flags({.RESIZABLE, .MAXIMIZED})
     en.init_window(TITLE, SCREEN_WIDTH, SCREEN_HEIGHT); defer en.close_window()
 
     en.init_renderer()
