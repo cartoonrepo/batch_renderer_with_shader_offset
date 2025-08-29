@@ -14,9 +14,10 @@ SCREEN_HEIGHT :: 720
 
 BUNNY_TEST :: #config(BUNNY_TEST, false) // NOTE: add -define:BUNNY_TEST=true to compiler.
 MAX_QUAD   :: 50_000
+SPEED      :: 200
 
 Bunny :: struct {
-    pos, speed: glm.vec2,
+    pos, size, speed: glm.vec2,
     color: en.Color,
 }
 
@@ -32,10 +33,12 @@ main :: proc() {
 
     bunnies := make([]Bunny, MAX_QUAD); defer delete(bunnies)
 
+    // bunnies setup
     for &b in bunnies {
-        b.pos   = pos
-        b.speed = {rand.float32_range(-200, 200), rand.float32_range(-200, 200)}
-        b.color = {u8(rand.float32_range(0, 255)), u8(rand.float32_range(0, 255)), u8(rand.float32_range(0, 255)), 255}
+        b.pos   = {rand.float32_range(51, w - 51), rand.float32_range(51, h - 51)}
+        b.size  = {rand.float32_range(10, 50), rand.float32_range(10, 50)}
+        b.speed = {rand.float32_range(-SPEED, SPEED), rand.float32_range(-SPEED, SPEED)}
+        b.color = {u8(rand.float32_range(10, 255)), u8(rand.float32_range(10, 255)), u8(rand.float32_range(10, 255)), 255}
     }
 
     last_time: f32
@@ -52,7 +55,7 @@ main :: proc() {
         w, h = en.get_window_size_f32()
 
         if BUNNY_TEST {
-            bunny_test(bunnies, w, h)
+            bunny_test(bunnies, w, h, frame_time)
         } else {
             s := abs(glm.cos(current_time) / 2)
 
@@ -84,18 +87,18 @@ main :: proc() {
     }
 }
 
-bunny_test :: proc(bunnies: []Bunny, w, h: f32) {
+bunny_test :: proc(bunnies: []Bunny, w, h, ft: f32) {
     for &b in bunnies {
-        b.pos += b.speed
+        b.pos += b.speed * ft
 
-        if b.pos.y > h || b.pos.y < 0 {
+        if b.pos.y + b.size.y >= h || b.pos.y < 0 {
             b.speed.y *= -1
         }
 
-        if b.pos.x > w || b.pos.x < 0 {
+        if b.pos.x + b.size.x >= w || b.pos.x < 0 {
             b.speed.x *= -1
         }
 
-        en.draw_quad(b.pos, {50, 50}, b.color)
+        en.draw_quad(b.pos, b.size, b.color)
     }
 }

@@ -5,12 +5,12 @@
 odin run src
 ````
 
-![My Image](screencap.png)
+![demo](screencap.png)
 
 ```console
 odin run src -define:BUNNY_TEST=true
 ````
-![My Image](bunny.png)
+![bunny_test](bunny.png)
 
 ### For Linux 🫶
 - Make sure SDL3 libs are installed on your computer.

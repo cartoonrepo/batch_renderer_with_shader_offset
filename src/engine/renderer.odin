@@ -99,9 +99,9 @@ init_renderer :: proc() {
     gl.EnableVertexAttribArray(1) // color
     gl.EnableVertexAttribArray(2) // offset
 
-    gl.VertexAttribPointer(0, i32(len(v.position)), gl.FLOAT, true,  size_of(Vertex), offset_of(Vertex, position))
+    gl.VertexAttribPointer(0, i32(len(v.position)), gl.FLOAT, false, size_of(Vertex), offset_of(Vertex, position))
     gl.VertexAttribPointer(1, i32(len(v.color)),    gl.FLOAT, false, size_of(Vertex), offset_of(Vertex, color))
-    gl.VertexAttribPointer(2, i32(len(v.offset)),   gl.FLOAT, true,  size_of(Vertex), offset_of(Vertex, offset))
+    gl.VertexAttribPointer(2, i32(len(v.offset)),   gl.FLOAT, false, size_of(Vertex), offset_of(Vertex, offset))
 
     ok: bool
     r.shader, ok = gl.load_shaders_file(VERTEX_SOURCE, FRAGMENT_SOURCE)

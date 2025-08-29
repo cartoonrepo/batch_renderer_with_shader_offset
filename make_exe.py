@@ -8,13 +8,14 @@ import sys
 
 from pathlib import Path
 
+# HOW_TO_RUN: python make_exe.py -debug -run
 # ----------------------------------------------------------------
 program_name  = "cartoon"
 source        = "src"
 
 collections   = []
 # collections   = [f"-collection:engine={source}/engine"]
-extra_flags   = ["-strict-style", "-disallow-do"]
+extra_flags   = ["-strict-style", "-disallow-do", "-keep-executable"]
 debug_flags   = ["-debug"]
 release_flags = ["-o:speed", "-vet", "-no-bounds-check"]
 
@@ -34,8 +35,12 @@ parser.add_argument("-debug",   action="store_true", help="debug build")
 parser.add_argument("-clean",   action="store_true", help="clean build folder")
 parser.add_argument("-run",     action="store_true", help="run the executable after compiling it,  require `-debug | -release` flags")
 parser.add_argument("-hold",    action="store_true", help="if error hold terminal until Enter pressed, require `-run` flag")
+parser.add_argument("-bunny",   action="store_true", help="set bunny test true")
 
 args = parser.parse_args()
+
+if args.bunny:
+    extra_flags = extra_flags + ["-define:BUNNY_TEST=true"]
 
 def main():
     root_build_dir = Path("build")
