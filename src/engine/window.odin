@@ -104,3 +104,6 @@ window_should_close :: proc() -> bool {
 swap_window :: proc() {
     sdl.GL_SwapWindow(ctx.window)
 }
+vsync :: proc(interval: i32) {
+    sdl.GL_SetSwapInterval(interval)
+}
