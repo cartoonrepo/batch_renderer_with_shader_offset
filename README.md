@@ -7,8 +7,9 @@ odin run src
 
 ![My Image](screencap.png)
 
-set `BUNNY_TEST :: true`
-
+```console
+odin run src -define:BUNNY_TEST=true
+````
 ![My Image](bunny.png)
 
 ### For Linux 🫶

@@ -6,6 +6,9 @@ import gl  "vendor:OpenGL"
 
 MAX_ELEMENTS :: 8192
 
+VERTEX_SOURCE   :: "assets/shaders/default.vert"
+FRAGMENT_SOURCE :: "assets/shaders/default.frag"
+
 Color :: struct {
     r, g, b, a: u8,
 }
@@ -25,8 +28,6 @@ Renderer :: struct {
 
     max_quads  : u32,
     quad_count : u32,
-
-    batch_count : u32, // NOTE: not needed.
 }
 
 // /utils
@@ -103,7 +104,7 @@ init_renderer :: proc() {
     gl.VertexAttribPointer(2, i32(len(v.offset)),   gl.FLOAT, true,  size_of(Vertex), offset_of(Vertex, offset))
 
     ok: bool
-    r.shader, ok = gl.load_shaders_file("assets/shaders/default.vert", "assets/shaders/default.frag")
+    r.shader, ok = gl.load_shaders_file(VERTEX_SOURCE, FRAGMENT_SOURCE)
     if !ok {
         fmt.println("failed to load shaders")
         when gl.GL_DEBUG {
@@ -129,16 +130,13 @@ flush_renderer :: proc() {
     gl.BindVertexArray(0)
 
     r.quad_count  = 0
-    r.batch_count = 0
 }
 
 draw_quad :: proc(pos, size: glm.vec2, color: Color) {
     r := &renderer
 
     if r.quad_count >= r.max_quads {
-        b := r.batch_count
         flush_renderer()
-        r.batch_count = b + 1
     }
 
     offset := r.quad_count * 4

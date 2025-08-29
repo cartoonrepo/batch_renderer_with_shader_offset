@@ -1,6 +1,5 @@
 package main
 
-import     "core:fmt"
 import     "core:time"
 import     "core:math/rand"
 import sdl "vendor:sdl3"
@@ -13,7 +12,7 @@ TITLE :: "Batch Renderer with shader offset(no instancing)"
 SCREEN_WIDTH  :: 1280
 SCREEN_HEIGHT :: 720
 
-BUNNY_TEST :: false
+BUNNY_TEST :: #config(BUNNY_TEST, false) // NOTE: add -define:BUNNY_TEST=true to compiler.
 MAX_QUAD   :: 50_000
 
 Bunny :: struct {
@@ -32,7 +31,6 @@ main :: proc() {
     pos: glm.vec2 = {w* 0.5, h * 0.5}
 
     bunnies := make([]Bunny, MAX_QUAD); defer delete(bunnies)
-    b_count: int
 
     for &b in bunnies {
         b.pos   = pos
